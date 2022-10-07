@@ -37,7 +37,8 @@ public class WordDictionary {
     private Set<String> wordSet;
     private Scanner scnr;
 
-
+    // call textprocessor to get returned list
+        // TODO: make test file too
     /**
      * //TODO: finish javadoc, description / exception
      * @param filename name of the file to be read from
@@ -48,7 +49,7 @@ public class WordDictionary {
         // read in each uppercase 5-letter word
         //scnr = new Scanner();
 
-        // Access Webster's dictionary and sfit through all uppercase 5-letter
+        // Access Webster's dictionary and sift through all uppercase 5-letter
         String webstersDictionary = "https://www.gutenberg.org/cache/epub/29765/pg29765.txt";
         URL webstersURL = new URL(webstersDictionary);
         BufferedInputStream in = new BufferedInputStream(webstersURL.openStream());
