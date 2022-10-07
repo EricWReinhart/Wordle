@@ -19,8 +19,12 @@
  */
 package org.tsugu_eric;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -31,15 +35,27 @@ import java.util.Set;
 public class WordDictionary {
     public String[] LIST_OF_TEXT_URLS;
     private Set<String> wordSet;
-
+    private Scanner scnr;
 
 
     /**
-     * //TODO: finish javadoc
+     * //TODO: finish javadoc, description / exception
      * @param filename name of the file to be read from
      */
-    public WordDictionary(String filename) {
+    public WordDictionary(String filename) throws IOException {
+        // filename is always words.txt
 
+        // read in each uppercase 5-letter word
+        //scnr = new Scanner();
+
+        // Access Webster's dictionary and sfit through all uppercase 5-letter
+        String webstersDictionary = "https://www.gutenberg.org/cache/epub/29765/pg29765.txt";
+        URL webstersURL = new URL(webstersDictionary);
+        BufferedInputStream in = new BufferedInputStream(webstersURL.openStream());
+
+
+
+        // add it to filename at the end
     }
 
     public void generateNewWordSet(URL url) {
