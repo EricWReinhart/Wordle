@@ -19,6 +19,8 @@ package org.tsugu_eric;
 
 import java.util.Scanner;
 
+import static java.lang.System.in;
+
 /** Different states that the game can be in */
 enum GameState {
     NEW_GAME,
@@ -34,6 +36,15 @@ public class Wordle {
     public static int MAX_WORD_LENGTH;
     /** Number of guesses */
     private int guessNumber;
+
+    public GameState getState() {return state;}
+
+    public int getGuessNumber() {return guessNumber;}
+
+    public String getSecretWord() {return secretWord;}
+
+    public String getLastGuess() {return lastGuess;}
+
     /** Secret word to be guessed */
     private String secretWord;
     /** Last guess by the user */
@@ -47,9 +58,10 @@ public class Wordle {
     /** GuessEvaluator object */
     GuessEvaluator guessEval;
     /** Scanner object */
-    private Scanner scnr;
+    private Scanner scnr = new Scanner(in);
 
     public Wordle() {
+        System.out.println("Welcome to Wordle!");
         // Create a WordDictionary object with the words from the specified output file
         this.wordDict = new WordDictionary(OUTPUT_FILE);
 
@@ -60,8 +72,9 @@ public class Wordle {
             // Initialize a new game
             //initNewGame();
 
-        // Start the game
-        playNextTurn();
+        // Don't think we start the game when this class is called
+            // Start the game
+            //playNextTurn();
     }
 
     /**
@@ -69,26 +82,19 @@ public class Wordle {
      */
     public void initNewGame() {
         this.guessEval = new GuessEvaluator();
-        this.guessNumber = 0;
+        this.guessNumber = 1;
         this.lastGuess = null;
         this.secretWord = wordDict.getRandomWord();
         this.guessEval.setSecretWord(secretWord);
         this.state = GameState.NEW_GAME;
+        System.out.println(getSecretWord());
     }
 
     /**
      * Welcome the user and print information about the creation of the word dataset
      */
     public void introductionMessages() {
-        System.out.println("Welcome to Wordle!");
-
-        // TODO: Choose: Move print statements to where they actually happen
-        // Check if words.txt exists
-        // if (not exists) {System.out.println(OUTPUT_FILE + ": NOT FOUND! Generating a new set of words.")}
-                // wordDict.generateNewWordSet
-                    // gotta implement this ^^
-                    // add EVERY word into this set
-
+        // TODO: Choose: Move print statements to where they actually happen / remove this method
         System.out.println("Reading master word set from Webster's Unabridged Dictionary.");
 
         System.out.println("Finding common words from novels:" +
@@ -116,17 +122,18 @@ public class Wordle {
         String guessAnalysis;
         int validWordLength = 5;
         int numOfTurns = 6;
-        String playAgain = "";
-        System.out.print("Ready to play Wordle! You have 6 guesses.");
+        String playAgain;
+        System.out.println("Ready to play Wordle! You have 6 guesses.");
 
         // Initialize and play a new game. At the end, ask the user to play again.
         do {
             initNewGame();
-            while (!isGameOver()) { //  maybe use GameState.GAME_IN_PROGRESS?
-                // TODO: add string formatting if needed
-                System.out.print("Guess " + this.guessNumber + ": ");
-                guess = scnr.nextLine().toLowerCase();
+            this.state = GameState.GAME_IN_PROGRESS;
+            while (!isGameOver()) {
+                System.out.print("Guess  " + this.guessNumber + ": ");
+                guess = this.scnr.nextLine().toLowerCase();
 
+                // TODO: extract method to validate the guess?
                 // Check that the guess is only letters, correct length, and in the valid word list
                 if (!guess.matches("[a-zA-Z]+")) {
                     System.out.println("Guess must only have letters.");
@@ -136,34 +143,31 @@ public class Wordle {
                     System.out.println("Guess is not a valid word.");
                 }
 
+                // TODO: extract method to analyze the valid guess if turns are left?
                 // If the guess is valid and there are turns left, then analyze it and print the results
                 else if (this.guessNumber < numOfTurns) {
                     this.guessNumber++;
                     this.lastGuess = guess;
-                    System.out.println(guess.toUpperCase());
                     guessAnalysis = this.guessEval.analyzeGuess(guess);
                     System.out.print("   -->    " + guessAnalysis + "   ");
 
                     // If the guess matches the secret word, print a winning message, otherwise print the remaining guesses.
                     if (guess.equals(this.secretWord)) {
-                        System.out.println("YOU WON! You guessed the word in " + this.guessNumber + " turns!");
+                        System.out.println("YOU WON! You guessed the word in " + (this.guessNumber-1) + " turn(s)!");
                         this.state = GameState.GAME_WINNER;
-                        System.out.println("Would you like to play again? [Y/N]: ");
-                        playAgain = scnr.nextLine();
                     } else {
-                        System.out.println("Try again. " + this.guessNumber + " guesses left.");
+                        System.out.println("Try again. " + (numOfTurns+1 - this.guessNumber) + " guesses left.");
                     }
-
                 }
 
                 // If the word is not guessed after the maximum number of turns, the user loses
                 else {
                     System.out.println("You lost! The word was " + this.secretWord);
                     this.state = GameState.GAME_LOSER;
-                    System.out.println("Would you like to play again? [Y/N]: ");
-                    playAgain = scnr.nextLine();
                 }
             }
+            System.out.println("Would you like to play again? [Y/N]: ");
+            playAgain = scnr.nextLine();
 
         } while(playAgain.equalsIgnoreCase("Y"));
         // TODO: only accept N to exit? or just anything that's not Y? (easier to do this)
