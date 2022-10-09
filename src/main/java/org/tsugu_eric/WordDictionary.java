@@ -12,20 +12,16 @@
  * Package: org.tsugu_eric
  * Class: WordDictionary
  *
- * Description: Read in words.txt, store them, and provide random words
+ * Description: Read in words.txt, store the words, and provide random words
  *              for the game. Also check for valid words being used as guesses
- *
  * ****************************************
  */
 package org.tsugu_eric;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Set of unique valid words. Reads in words.txt, stores them, and
@@ -33,42 +29,68 @@ import java.util.Set;
  * as guesses
  */
 public class WordDictionary {
-    public String[] LIST_OF_TEXT_URLS;
-    private Set<String> wordSet;
+    public static void main(String[] args) {
+        // TODO: REMOVE MAIN - testing only
+        new WordDictionary("words.txt");
+        //System.out.println(wordSet);
+
+    }
+    public static String[] LIST_OF_TEXT_URLS;
+    private static Set<String> wordSet;
     private Scanner scnr;
 
     // call textprocessor to get returned list
         // TODO: make test file too
     /**
-     * //TODO: finish javadoc, description / exception
+     * Read in the filename and store the words in a set
      * @param filename name of the file to be read from
      */
-    public WordDictionary(String filename) throws IOException {
-        // filename is always words.txt
+    public WordDictionary(String filename) {
+        // Use a try-with-resources block to get an InputStream
+        try (InputStream inStream = WordDictionary.class.getResourceAsStream(filename)) {
+            //BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
+            Scanner scnr = new Scanner(inStream);
+
+            while(scnr.hasNextLine()) {
+                wordSet.add(scnr.nextLine());
+            }
+
+//            // Read a word at a time, and add each word to wordSet
+//            String word = null;
+//            while((word = reader.readLine()) != null) {
+//                wordSet.add(word);
+//            }
+        }
+        catch (IOException e) {
+            System.out.println("Error reading the file.");
+        }
+        //Scanner scnr = new Scanner(in);
+        // loop through the file and add words to wordSet
+
+
+        // read in / store them / provide random word /
+        // check for valid guesses
 
         // read in each uppercase 5-letter word
         //scnr = new Scanner();
 
-        // Access Webster's dictionary and sift through all uppercase 5-letter
-        String webstersDictionary = "https://www.gutenberg.org/cache/epub/29765/pg29765.txt";
-        URL webstersURL = new URL(webstersDictionary);
-        BufferedInputStream in = new BufferedInputStream(webstersURL.openStream());
 
+        //TODO: add test folder
 
-
-        // add it to filename at the end
     }
 
+    // TODO: not sure when to use this method
     public void generateNewWordSet(URL url) {
 
     }
 
+    // TODO: not sure when to use this method
     /**
      * Add news words from wordList to the wordSet
      * @param wordList list of words
      */
     public void addWords(List<String> wordList) {
-
+        wordSet.addAll(wordList);
     }
 
 
@@ -78,13 +100,26 @@ public class WordDictionary {
      * @return true if the word is in the set, otherwise false
      */
     public boolean isWordInSet(String word) {
-        return true;
+        return wordSet.contains(word.toLowerCase());
     }
 
-    // TODO: get random word from set of words
-    public String getRandomWord() {
 
-        return "";
+    /**
+     * Obtain a random integer then iterate through the wordSet and
+     * return the corresponding word
+     * @return a random word from the set of valid words
+     */
+    public String getRandomWord() {
+        Random rand = new Random();
+        int randWordIndex = rand.nextInt(wordSet.size());
+        int i = 0;
+        String word = "";
+        Iterator<String> iter = wordSet.iterator();
+        while (i != randWordIndex) {
+            word = iter.next();
+            i++;
+        }
+        return word;
     }
 
 }
