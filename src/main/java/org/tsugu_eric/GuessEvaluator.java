@@ -3,7 +3,7 @@
  * Fall 2022
  * Instructor: Prof. Brian King
  *
- * Name: Tsugunobu Miyake
+ * Name: Eric Reinhart, Tsugunobu Miyake
  * Section: 02 - 11am
  * Date: 10/7/2022
  * Time: 11:10
