@@ -50,23 +50,24 @@ public class Wordle {
     private Scanner scnr;
 
     public Wordle() {
-        // Initialize a new game
-        initNewGame();
+        // Create a WordDictionary object with the words from the specified output file
+        this.wordDict = new WordDictionary(OUTPUT_FILE);
 
-        // TODO: maybe include this method call in initNewGame()? Or leave it here?
-            // Print setup messages about the word dataset
-            introductionMessages();
+        // Print setup messages about the word dataset
+            //introductionMessages();
+
+        // Don't need this b/c playNextTurn() initializes a new game at the start
+            // Initialize a new game
+            //initNewGame();
 
         // Start the game
         playNextTurn();
-
     }
 
     /**
      * Initialize a new game of Wordle
      */
     public void initNewGame() {
-        this.wordDict = new WordDictionary(OUTPUT_FILE);
         this.guessEval = new GuessEvaluator();
         this.guessNumber = 0;
         this.lastGuess = null;
@@ -79,9 +80,9 @@ public class Wordle {
      * Welcome the user and print information about the creation of the word dataset
      */
     public void introductionMessages() {
-        // TODO: Choose: just print what's happening or actually do it at each step in this method?
         System.out.println("Welcome to Wordle!");
 
+        // TODO: Choose: Move print statements to where they actually happen
         // Check if words.txt exists
         // if (not exists) {System.out.println(OUTPUT_FILE + ": NOT FOUND! Generating a new set of words.")}
                 // wordDict.generateNewWordSet
@@ -107,49 +108,66 @@ public class Wordle {
         System.out.println("READY!");
     }
 
+    /**
+     * Play a new game of Wordle. At the end, ask the user if they would like to play again.
+     */
     public void playNextTurn() {
         String guess;
         String guessAnalysis;
         int validWordLength = 5;
         int numOfTurns = 6;
+        String playAgain = "";
         System.out.print("Ready to play Wordle! You have 6 guesses.");
-        while (!isGameOver()) { //  maybe use GameState.GAME_IN_PROGRESS?
-            // TODO: add string formatting if needed
-            System.out.print("Guess " + this.guessNumber + ": ");
-            guess = scnr.nextLine().toLowerCase();
 
-            // Check that the guess is only letters, correct length, and in the valid word list
-            if (!guess.matches("[a-zA-Z]+")) {
-                System.out.println("Guess must only have letters.");
+        // Initialize and play a new game. At the end, ask the user to play again.
+        do {
+            initNewGame();
+            while (!isGameOver()) { //  maybe use GameState.GAME_IN_PROGRESS?
+                // TODO: add string formatting if needed
+                System.out.print("Guess " + this.guessNumber + ": ");
+                guess = scnr.nextLine().toLowerCase();
+
+                // Check that the guess is only letters, correct length, and in the valid word list
+                if (!guess.matches("[a-zA-Z]+")) {
+                    System.out.println("Guess must only have letters.");
+                } else if (guess.length() != validWordLength) {
+                    System.out.println("Guess must be 5-letters long.");
+                } else if (!this.wordDict.isWordInSet(guess)) {
+                    System.out.println("Guess is not a valid word.");
+                }
+
+                // If the guess is valid and there are turns left, then analyze it and print the results
+                else if (this.guessNumber < numOfTurns) {
+                    this.guessNumber++;
+                    this.lastGuess = guess;
+                    System.out.println(guess.toUpperCase());
+                    guessAnalysis = this.guessEval.analyzeGuess(guess);
+                    System.out.print("   -->    " + guessAnalysis + "   ");
+
+                    // If the guess matches the secret word, print a winning message, otherwise print the remaining guesses.
+                    if (guess.equals(this.secretWord)) {
+                        System.out.println("YOU WON! You guessed the word in " + this.guessNumber + " turns!");
+                        this.state = GameState.GAME_WINNER;
+                        System.out.println("Would you like to play again? [Y/N]: ");
+                        playAgain = scnr.nextLine();
+                    } else {
+                        System.out.println("Try again. " + this.guessNumber + " guesses left.");
+                    }
+
+                }
+
+                // If the word is not guessed after the maximum number of turns, the user loses
+                else {
+                    System.out.println("You lost! The word was " + this.secretWord);
+                    this.state = GameState.GAME_LOSER;
+                    System.out.println("Would you like to play again? [Y/N]: ");
+                    playAgain = scnr.nextLine();
+                }
             }
-            else if (guess.length() != validWordLength) {
-                System.out.println("Guess must be 5-letters long.");
-            }
-            else if (!this.wordDict.isWordInSet(guess)) {
-                System.out.println("Guess is not a valid word.");
-            }
 
-            // If the guess is valid and there are turns left, then analyze it and print the results
-            else if (this.guessNumber < numOfTurns) {
-                System.out.println(guess.toUpperCase());
-                guessAnalysis = this.guessEval.analyzeGuess(guess);
-                System.out.println("   -->    " + guessAnalysis);
-
-                // If it matches secret word then end
-                // If it doesn't
-                //if ()
-
-                this.lastGuess = guess;
-                this.guessNumber++;
-            }
-
-            // If the word is not guessed after the maximum number of turns
-            else {
-                System.out.println("You lost! The word was " + this.secretWord);
-                this.state = GameState.GAME_LOSER;
-            }
-        }
-
+        } while(playAgain.equalsIgnoreCase("Y"));
+        // TODO: only accept N to exit? or just anything that's not Y? (easier to do this)
+        System.out.print("Goodbye!");
     }
 
     public boolean isGameOver() {
