@@ -51,22 +51,33 @@ public class TextProcessor {
         // TODO: check exceptions
     }
     //private URL url;
+    /** TreeMap to store valid words and their frequencies */
     private TreeMap<String,Integer> wordMap = new TreeMap<>();
+    /** HashSet to store all 5-letter words in the dictionary */
     private final Set<String> dictionaryWords = new HashSet<>();
+    /** Total number of words processed*/
     private int totalWords;
+    /** Total number of valid words that were not 5-letters long */
     private int totalGoodWordsDiscarded;
+    /** Total number of good words kept in the final TreeMap */
     private int totalGoodWords;
+    /** Total number of unique words in the final TreeMap */
     private int totalUniqueWords;
+    /** Scanner object */
     private Scanner scnr;
+    /** Boolean if dictionary has not been processed yet */
     private boolean processingDictionary = true;
+    /** Name of the file to write the words to */
     private final String OUTPUT_FILE = "words.txt";
+    /** URL address to Webster's Dictionary*/
     private final String webstersDictionary = "https://www.gutenberg.org/cache/epub/29765/pg29765.txt";
 
-    private final String novel1 = "https://www.gutenberg.org/files/1342/1342-h/1342-h.htm"; // Pride and Prejudice
-    private final String novel2 = "https://www.gutenberg.org/files/84/84-h/84-h.htm"; // Frankenstein
-    private final String novel3 = "https://www.gutenberg.org/files/25344/25344-h/25344-h.htm"; // The Scarlet Letter
-    private final String novel4 = "https://www.gutenberg.org/files/11/11-h/11-h.htm"; // Alice in Wonderland
-    private final String novel5 = "https://www.gutenberg.org/files/5200/5200-h/5200-h.htm"; // Metamorphosis
+    /** URLS to the following novels: Pride and Prejudice, Frankenstein, The Scarlet Letter, Alice in Wonderland, Metamorphosis*/
+    private final String novel1 = "https://www.gutenberg.org/files/1342/1342-h/1342-h.htm";
+    private final String novel2 = "https://www.gutenberg.org/files/84/84-h/84-h.htm";
+    private final String novel3 = "https://www.gutenberg.org/files/25344/25344-h/25344-h.htm";
+    private final String novel4 = "https://www.gutenberg.org/files/11/11-h/11-h.htm";
+    private final String novel5 = "https://www.gutenberg.org/files/5200/5200-h/5200-h.htm";
 
     /**
      * Initialize the set of novels, gather all 5-letter words from a dictionary, then
@@ -89,8 +100,6 @@ public class TextProcessor {
         // Write the list of words to the intended output file
         writeListOfWords(OUTPUT_FILE);
 
-        // TODO: wordMap will still have words with frequency = 1, be careful when accessing it
-
         // TODO: Remove printReport call?
         printReport();
     }
@@ -112,15 +121,13 @@ public class TextProcessor {
                         dictionaryWords.add(word.toLowerCase());
                     }
                 }
-
                 else {
                     totalWords++;
+
+                    // TODO: Use regex to eliminate words with hyphen or apostrophe
+
                     // Trim word of quotation marks, punctuation, and underscores
                     word = trimWord(word);
-                        // TODO: only check for len==5 *AFTER* trim & eliminate hyphen/apostrophe
-
-                    // TODO: Use regex to eliminate words with hyphen / apostrophe? Just 1 regex in other method?
-                        // do this before trimming?
 
                     // Word is in the dictionary, and it has no capital letters
                     if (isWordValid(word) && word.equals(word.toLowerCase()) ) {
@@ -153,11 +160,12 @@ public class TextProcessor {
     private String trimWord(String word) {
         // Strip out starting and ending double quotation marks
 
+        // TODO: if the word has any special character, replace it with nothing
+            // slightly diff results then replaceAll with the quotes
+            // this one has 10 more words kept & 1 more unique
+            //word = word.replaceAll("[^a-zA-Z0-9]", "");
 
-        //TODO: replace word with any special character with nothing
-        //word = word.replaceAll("[^a-zA-Z0-9]", "");
-            // slightly diff results, ^ has 10 more words kept & 1 more unique
-        //TODO: open/closing quotes not in correct direction? Does it matter?
+        //TODO: open/closing quotes not in correct direction (look at the pdf)? Does it matter?
         word = word.replaceAll("[“”]","");
 
         // Trim trailing punctuation marks
@@ -189,11 +197,10 @@ public class TextProcessor {
      * Print some interesting stats after processing all the words in the novels
      */
     public void printReport() {
-        // TODO: print statements like in his example
         // Maybe make them different? Need to calculate total good words but wrong length
-            // the solution is to add every word to dictionary Set
+            // the solution is to add every word to dictionary Set (not just length = 5)
             // If len≠5 of GoodWord then totalGoodWordsDiscarded++
-        //totalGoodWordsDiscarded -= totalGoodWords;
+            //totalGoodWordsDiscarded -= totalGoodWords;
         System.out.println("Total number of words processed: " + totalWords);
         //System.out.println("Total good words but wrong length: " + totalGoodWordsDiscarded);
         System.out.println("Total number of words kept: " + totalGoodWords);
