@@ -29,70 +29,112 @@ import java.util.*;
  * as guesses
  */
 public class WordDictionary {
-    public static void main(String[] args) {
-        // TODO: REMOVE MAIN - temporary testing only
-        new WordDictionary("words.txt");
-        System.out.println(wordSet);
+    /** URLS to the novels that will be used to generate the word set */
+    private TreeMap<String, String> novelsURL;
 
-        // Test WordDictionary - wordList is initially 0 but is greater than 0 after reading the file
-            // assertTrue(wordList.size() == 0);
-            // WordDictionary("words.txt");
-            // assertTrue(wordList.size() > 0);
+    /** URL address to master dictionary*/
+    private final String DICT_URL = "https://www.gutenberg.org/cache/epub/29765/pg29765.txt";
 
-            // WordDictionary("wrongfile.txt");
-            // How can I check that this causes a FileNotFoundException?
-                // Maybe add return false under catch then: assertFalse(WordDictionary("wrongfile.txt"));
 
-        // Test isWordInSet - test if a valid word is included and an invalid word is excluded
-            //assertTrue(isWordInSet("vague"));
-            //assertFalse(isWordInSet("")); // empty or wrong-letters or invalid word
+    /** Set of words that are found in the master dictionary and novels. */
+    private Set<String> wordSet;
 
-        // Test addWords - add the words in the list to the wordSet then check if it contains the word or not
-            // List<String> wordList = Arrays.asList("apple", "mango", "chair");
-            // addWords(wordList);
-            // assertTrue(wordSet.contains("mango");
-            // assertFalse(wordSet.contains("fruit");
+    /** The filename of the words */
+    public final String FILE_NAME = "words.txt";
 
-        // Test getRandomWord - generate a random word and check that the word is added to the wordSet correctly
-            // String randomWord = getRandomWord();
-            // assertTrue(wordSet.contains(randomWord);
+    /** The Scanner to check user's inputs */
+    private Scanner userInputScanner;
 
-    }
-    /** List containing the URLs of the novels*/
-    // TODO: Should the novel URLs go here instead of in Textprocessor?
-    public static String[] LIST_OF_TEXT_URLS;
-
-    private static final Set<String> wordSet = new HashSet<>();
 
     /**
      * Read in the filename and store the words in a set
-     * @param filename name of the file to be read from
      */
-    public WordDictionary(String filename) {
-        try(Scanner scnr = new Scanner(new File(filename))) {
-            while(scnr.hasNextLine()) {
-                wordSet.add(scnr.nextLine());
-            }
+    public WordDictionary() {
+        wordSet = new TreeSet<>();
+        userInputScanner = new Scanner(System.in);
+        novelsURL = new TreeMap<>();
+
+        storeNovelsURL();
+    }
+
+    /**
+     * Stores the novel's URL with its title
+     */
+    private void storeNovelsURL(){
+        novelsURL.put("Pride and Prejudice", "https://www.gutenberg.org/files/1342/1342-0.txt");
+        novelsURL.put("Frankenstein", "https://www.gutenberg.org/files/84/84-0.txt");
+        novelsURL.put("The Scarlet Letter", "https://www.gutenberg.org/files/25344/25344-0.txt");
+        novelsURL.put("Alice in Wonderland", "https://www.gutenberg.org/files/11/11-0.txt");
+        novelsURL.put("Metamorphosis", "https://www.gutenberg.org/files/5200/5200-0.txt");
+    }
+
+    /**
+     * Read the words that are used for the Wordle game
+     */
+    public void readWords() {
+        try(Scanner scnr = new Scanner(new File(FILE_NAME))) {
+            String answer;
+            do {
+                System.out.print(FILE_NAME + ": FOUND. Generate a new file? [y/n]:");
+                answer = userInputScanner.next();
+                if(answer.equalsIgnoreCase("y")
+                        || answer.equalsIgnoreCase("n")){
+                    System.out.println("Please type y or n");
+                }
+            }while(!answer.equalsIgnoreCase("y") && !answer.equalsIgnoreCase("n"));
+
+            if(answer.equalsIgnoreCase("y"))
+                readWordFile(scnr);
+            else
+                generateNewWordSet();
         }
         catch(FileNotFoundException e) {
-            System.out.println("File not found.");
+            System.out.println(FILE_NAME + " NOT FOUND. Generating a new set of words.");
+            generateNewWordSet();
         }
     }
 
-    // TODO: not sure when to use this method
-    public void generateNewWordSet(URL url) {
-
-    }
-
-    // TODO: not sure when to use this method
     /**
-     * Add news words from wordList to the wordSet
-     * @param wordList list of words
+     * Reads the words.txt file and add them into the wordSet
+     * @param fileScanner
      */
-    public void addWords(List<String> wordList) {
-        wordSet.addAll(wordList);
+    private void readWordFile(Scanner fileScanner) {
+        while (fileScanner.hasNextLine()) {
+            wordSet.add(fileScanner.nextLine());
+        }
     }
 
+
+    /**
+     * Generate a new word set using the dictionary and novels
+     * Write the result into the text file
+     * Prints the status onto the console.
+     */
+    private void generateNewWordSet() {
+        try {
+            URL masterDictionary = new URL(DICT_URL);
+            System.out.println("Reading master word set from Webster's Unabridged Dictionary.");
+            TextProcessor tp = new TextProcessor(masterDictionary);
+
+            System.out.println("Finding common words from novels:");
+            for(String title : novelsURL.keySet()){
+                URL novel = new URL(novelsURL.get(title));
+                System.out.print(" - Reading in " + title + "......");
+                tp.processTextAtURL(novel);
+                System.out.println("done");
+            }
+
+            this.wordSet = tp.getSetOfWords();
+            System.out.println("Keeping " + this.wordSet.size() + " valid words for the game.");
+
+            tp.writeListOfWords(FILE_NAME);
+            System.out.println("Storing word dataset as word.txt");
+
+        }catch(MalformedURLException e){
+            System.out.println("ERROR: The URL was invalid.");
+        }
+
+    }
 
     /**
      * If the word is in the set, return true, otherwise false
@@ -120,6 +162,10 @@ public class WordDictionary {
             i++;
         }
         return word;
+    }
+
+    public Set<String> getWordSet() {
+        return wordSet;
     }
 }
 
