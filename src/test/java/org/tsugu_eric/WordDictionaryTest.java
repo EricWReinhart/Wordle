@@ -28,7 +28,7 @@ class WordDictionaryTest {
     private InputStream defaultConsoleStream;
 
     /** Pseudo input used to enter "n". */
-    private String pseudoInput = "n";
+    private String pseudoInput = "n\n";
 
 
     /**
@@ -74,7 +74,10 @@ class WordDictionaryTest {
         // Read those ten words
         wd.readWords();
 
-        assertArrayEquals(testWords, wd.getWordSet().toArray());
+        // Referred Java API documentation
+        String[] actualWords = wd.getWordSet().toArray(new String[0]);
+
+        assertArrayEquals(testWords, actualWords);
     }
 
     /**

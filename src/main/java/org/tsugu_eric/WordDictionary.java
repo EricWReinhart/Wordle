@@ -101,13 +101,13 @@ public class WordDictionary {
 
     /**
      * Reads the words.txt file and add them into the wordSet
-     * @param fileScanner
+     * @param fileScanner The {@link Scanner} that reads the text file storing words.
      */
     private void readWordFile(Scanner fileScanner) {
         while (fileScanner.hasNextLine()) {
             String line = fileScanner.nextLine();
-            if(line.length() == 5)
-                wordSet.add(fileScanner.nextLine());
+            if(line.trim().length() == 5)
+                wordSet.add(line);
         }
     }
 
