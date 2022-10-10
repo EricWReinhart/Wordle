@@ -17,18 +17,17 @@
  */
 package org.tsugu_eric;
 
+/**
+ * A class that launches and plays Wordle game
+ */
 public class Main {
+
+    /**
+     * Launches and runs the Wordle game
+     * @param args command line argument
+     */
     public static void main(String[] args) {
-        // Check if words.txt exists
-            // if (not exists) {System.out.println(OUTPUT_FILE + ": NOT FOUND! Generating a new set of words.")}
-            // wordDict.generateNewWordSet
-            // gotta implement this ^^
-            // add EVERY word into this set
-
         Wordle wordleGame = new Wordle();
-
-        wordleGame.playNextTurn();
-
-
+        wordleGame.play();
     }
 }
