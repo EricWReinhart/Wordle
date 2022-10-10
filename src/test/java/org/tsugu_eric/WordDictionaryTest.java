@@ -21,11 +21,14 @@ class WordDictionaryTest {
     /** The output file */
     private File outputFile;
 
+    /** The filename of the test output file */
+    private final String FILE_NAME = "testWords.txt";
+
     /** The default System.in */
     private InputStream defaultConsoleStream;
 
-    /** Pseudo input used to enter "y". */
-    private String pseudoInput = "y";
+    /** Pseudo input used to enter "n". */
+    private String pseudoInput = "n";
 
 
     /**
@@ -37,8 +40,8 @@ class WordDictionaryTest {
         defaultConsoleStream = System.in;
         System.setIn(new ByteArrayInputStream(pseudoInput.getBytes()));
 
-        wd = new WordDictionary();
-        outputFile = new File(wd.FILE_NAME);
+        wd = new WordDictionary(FILE_NAME);
+        outputFile = new File(wd.wordFile);
     }
 
     /**

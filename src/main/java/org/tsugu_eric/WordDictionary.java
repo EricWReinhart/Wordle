@@ -40,7 +40,7 @@ public class WordDictionary {
     private Set<String> wordSet;
 
     /** The filename of the words */
-    public final String FILE_NAME = "words.txt";
+    public String wordFile;
 
     /** The Scanner to check user's inputs */
     private Scanner userInputScanner;
@@ -48,8 +48,11 @@ public class WordDictionary {
 
     /**
      * Read in the filename and store the words in a set
+     * @param wordFile the file name of the text file that stores the word to be used.
+     *                      If the file does not exist, then WordDictionary will create the text file.
      */
-    public WordDictionary() {
+    public WordDictionary(String wordFile) {
+        this.wordFile = wordFile;
         wordSet = new TreeSet<>();
         userInputScanner = new Scanner(System.in);
         novelsURL = new TreeMap<>();
@@ -72,24 +75,26 @@ public class WordDictionary {
      * Read the words that are used for the Wordle game
      */
     public void readWords() {
-        try(Scanner scnr = new Scanner(new File(FILE_NAME))) {
+        try(Scanner scnr = new Scanner(new File(wordFile))) {
             String answer;
             do {
-                System.out.print(FILE_NAME + ": FOUND. Generate a new file? [y/n]:");
+                System.out.print(wordFile + ": FOUND. Generate a new file? [y/n]:");
                 answer = userInputScanner.next();
-                if(answer.equalsIgnoreCase("y")
-                        || answer.equalsIgnoreCase("n")){
+                if(!answer.equalsIgnoreCase("y")
+                        && !answer.equalsIgnoreCase("n")){
                     System.out.println("Please type y or n");
                 }
+                // Clears the input
+                userInputScanner.nextLine();
             }while(!answer.equalsIgnoreCase("y") && !answer.equalsIgnoreCase("n"));
 
-            if(answer.equalsIgnoreCase("y"))
+            if(answer.equalsIgnoreCase("n"))
                 readWordFile(scnr);
             else
                 generateNewWordSet();
         }
         catch(FileNotFoundException e) {
-            System.out.println(FILE_NAME + " NOT FOUND. Generating a new set of words.");
+            System.out.println(wordFile + " NOT FOUND. Generating a new set of words.");
             generateNewWordSet();
         }
     }
@@ -100,7 +105,9 @@ public class WordDictionary {
      */
     private void readWordFile(Scanner fileScanner) {
         while (fileScanner.hasNextLine()) {
-            wordSet.add(fileScanner.nextLine());
+            String line = fileScanner.nextLine();
+            if(line.length() == 5)
+                wordSet.add(fileScanner.nextLine());
         }
     }
 
@@ -127,7 +134,7 @@ public class WordDictionary {
             this.wordSet = tp.getSetOfWords();
             System.out.println("Keeping " + this.wordSet.size() + " valid words for the game.");
 
-            tp.writeListOfWords(FILE_NAME);
+            tp.writeListOfWords(wordFile);
             System.out.println("Storing word dataset as word.txt");
 
         }catch(MalformedURLException e){
