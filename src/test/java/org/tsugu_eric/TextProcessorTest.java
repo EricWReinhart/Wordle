@@ -21,7 +21,7 @@ class TextProcessorTest {
     private static final int WORD_LENGTH = 5;
     private static final String DICT_URL = "https://www.gutenberg.org/cache/epub/29765/pg29765.txt";
     private static final String NOVEL_URL1 = "https://www.gutenberg.org/files/1342/1342-0.txt";
-    private static final String NOVEL_URL2 = "https://www.gutenberg.org/files/84/84-h/84-h.htm";
+    private static final String NOVEL_URL2 = "https://www.gutenberg.org/files/84/84-0.txt";
 
     /** The TextProcessor class */
     private TextProcessor tp;

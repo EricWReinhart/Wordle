@@ -23,7 +23,6 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,20 +52,6 @@ public class TextProcessor {
 
     /** Scanner object */
     private Scanner scnr;
-
-    /** Name of the file to write the words to */
-    private final String OUTPUT_FILE = "words.txt";
-    /** URL address to Webster's Dictionary*/
-    private final String webstersDictionary = "https://www.gutenberg.org/cache/epub/29765/pg29765.txt";
-
-    /** URLS to the following novels: Pride and Prejudice, Frankenstein, The Scarlet Letter, Alice in Wonderland, Metamorphosis */
-    private final String[] novels = {
-            "https://www.gutenberg.org/files/1342/1342-h/1342-h.htm",
-            "https://www.gutenberg.org/files/84/84-h/84-h.htm",
-            "https://www.gutenberg.org/files/25344/25344-h/25344-h.htm",
-            "https://www.gutenberg.org/files/11/11-h/11-h.htm",
-            "https://www.gutenberg.org/files/5200/5200-h/5200-h.htm"
-    };
 
     /**
      * Initialize the set of novels, gather all 5-letter words from a dictionary, then
