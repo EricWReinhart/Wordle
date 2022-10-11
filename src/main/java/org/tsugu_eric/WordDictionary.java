@@ -160,7 +160,7 @@ public class WordDictionary {
     public String getRandomWord() {
         Random rand = new Random();
         int randWordIndex = rand.nextInt(wordSet.size());
-        int i = 0;
+        int i = -1;
         String word = "";
         Iterator<String> iter = wordSet.iterator();
         while (i != randWordIndex) {
