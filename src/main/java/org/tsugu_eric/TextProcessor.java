@@ -109,14 +109,14 @@ public class TextProcessor {
                 Matcher m = validWordFilter.matcher(word);
 
                 if (m.matches()) {
-                    String trimedWord = m.group(1);
+                    String trimmedWord = m.group(1);
                     // Check if the word is in the dictionary.
-                    if (isWordValid(trimedWord)) {
+                    if (isWordValid(trimmedWord)) {
                         // If the wordMap does not contain the word, add it. Else increase the frequency of the word by 1
-                        if (wordMap.containsKey(trimedWord)) {
-                            wordMap.put(trimedWord, wordMap.get(trimedWord) + 1);
+                        if (wordMap.containsKey(trimmedWord)) {
+                            wordMap.put(trimmedWord, wordMap.get(trimmedWord) + 1);
                         } else {
-                            wordMap.put(trimedWord, 1);
+                            wordMap.put(trimmedWord, 1);
                             this.totalUniqueWords++;
                         }
                         totalGoodWordsKept++;
@@ -192,7 +192,7 @@ public class TextProcessor {
     public void writeListOfWords(String filename) {
         try (PrintStream out = new PrintStream(filename)) {
             for (String key : wordMap.keySet()) {
-                if (wordMap.get(key) > 0) {
+                if (wordMap.get(key) > 1) {
                     out.println(key);
                 }
             }

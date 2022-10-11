@@ -32,9 +32,8 @@ public class WordDictionary {
     /** URLS to the novels that will be used to generate the word set */
     private TreeMap<String, String> novelsURL;
 
-    /** URL address to master dictionary*/
+    /** URL address to master dictionary */
     private final String DICT_URL = "https://www.gutenberg.org/cache/epub/29765/pg29765.txt";
-
 
     /** Set of words that are found in the master dictionary and novels. */
     private Set<String> wordSet;
@@ -44,7 +43,6 @@ public class WordDictionary {
 
     /** The Scanner to check user's inputs */
     private Scanner userInputScanner;
-
 
     /**
      * Read in the filename and store the words in a set
@@ -69,10 +67,13 @@ public class WordDictionary {
         novelsURL.put("The Scarlet Letter", "https://www.gutenberg.org/files/25344/25344-0.txt");
         novelsURL.put("Alice in Wonderland", "https://www.gutenberg.org/files/11/11-0.txt");
         novelsURL.put("Metamorphosis", "https://www.gutenberg.org/files/5200/5200-0.txt");
+        novelsURL.put("The Great Gatsby", "https://www.gutenberg.org/cache/epub/64317/pg64317.txt");
+        novelsURL.put("A Christmas Carol", "https://www.gutenberg.org/cache/epub/46/pg46.txt");
     }
 
     /**
-     * Read the words that are used for the Wordle game
+     * Read the words that are used for the Wordle game. Generate a new file of words if
+     * a file does not already exist or the user wants to.
      */
     public void readWords() {
         try(Scanner scnr = new Scanner(new File(wordFile))) {
@@ -110,7 +111,6 @@ public class WordDictionary {
                 wordSet.add(line);
         }
     }
-
 
     /**
      * Generate a new word set using the dictionary and novels
@@ -152,7 +152,6 @@ public class WordDictionary {
         return wordSet.contains(word.toLowerCase());
     }
 
-
     /**
      * Obtain a random integer then iterate through the wordSet and
      * return the corresponding word
@@ -171,9 +170,7 @@ public class WordDictionary {
         return word;
     }
 
-    public Set<String> getWordSet() {
-        return wordSet;
-    }
+    public Set<String> getWordSet() {return wordSet;}
 }
 
 

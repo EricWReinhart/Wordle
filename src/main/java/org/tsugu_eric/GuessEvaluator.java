@@ -12,9 +12,8 @@
  * Package: org.tsugu_eric
  * Class: GuessEvaluator
  *
- * Description: Compares guessed words to the secret words and
- *              generates the string that represents how close the guess is to the secret word.
- *
+ * Description: Compares guessed words to the secret words and generates the string
+ *              that represents how close the guess is to the secret word.
  * ****************************************
  */
 package org.tsugu_eric;

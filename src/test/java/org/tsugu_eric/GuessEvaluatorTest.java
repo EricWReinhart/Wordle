@@ -1,3 +1,20 @@
+/* *****************************************
+ * CSCI205 - Software Engineering and Design
+ * Fall 2022
+ * Instructor: Prof. Brian King
+ *
+ * Name: Tsugunobu Miyake, Eric Reinhart
+ * Section: 02 11am
+ * Date: 10/7/22
+ * Time: 11:16 AM
+ *
+ * Project: csci205_hw
+ * Package: org.tsugu_eric
+ * Class: WordDictionary
+ *
+ * Description: Unit testing for GuessEvaluator
+ * ****************************************
+ */
 package org.tsugu_eric;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +53,6 @@ class GuessEvaluatorTest {
     void setUp() {
         evaluator = new GuessEvaluator();
     }
-
 
     /**
      * Tests the output of the analyses with several combinations of

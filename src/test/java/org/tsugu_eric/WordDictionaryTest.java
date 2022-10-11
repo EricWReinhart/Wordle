@@ -1,3 +1,20 @@
+/* *****************************************
+ * CSCI205 - Software Engineering and Design
+ * Fall 2022
+ * Instructor: Prof. Brian King
+ *
+ * Name: Tsugunobu Miyake, Eric Reinhart
+ * Section: 02 - 11am
+ * Date: 10/7/2022
+ * Time: 11:10
+ *
+ * Project: csci205_hw
+ * Package: org.tsugu_eric
+ * Class: GuessEvaluator
+ *
+ * Description: Unit tests for WordDictionary
+ * ****************************************
+ */
 package org.tsugu_eric;
 
 import org.junit.jupiter.api.AfterEach;

@@ -81,10 +81,7 @@ public class Wordle {
         this.guessEval.setSecretWord(secretWord);
         this.state = GameState.NEW_GAME;
 
-        System.out.println(getSecretWord());
-
         System.out.println("Ready to play Wordle! You have 6 guesses.");
-        System.out.println();
     }
 
     /**
@@ -125,7 +122,7 @@ public class Wordle {
     }
 
     /**
-     * Play one game of the Wordle
+     * Play one game of Wordle
      */
     private void playOneGame() {
         this.state = GameState.GAME_IN_PROGRESS;
@@ -147,7 +144,7 @@ public class Wordle {
      * @param guess guess made by the user.
      */
     private void giveCommentsForGuess(String guess) {
-        // If the guess matches the secret word, print a winning message, otherwise print the remaining guesses.
+        // If the guess matches the secret word, print a winning message
         if (guess.equals(this.secretWord)) {
             System.out.println("YOU WON! You guessed the word in " + this.guessNumber + " turn(s)!");
             this.state = GameState.GAME_WINNER;
@@ -158,14 +155,15 @@ public class Wordle {
             System.out.println("You lost! The word was " + this.secretWord);
             this.state = GameState.GAME_LOSER;
         } 
-        
+
+        // Otherwise print the remaining guesses
         else {
             System.out.println("Try again. " + (NUM_TURNS - this.guessNumber) + " guesses left.");
         }
     }
 
     /**
-     * Asks the user a guess for the Wordle game until the user inputs the valid input.
+     * Asks the user for a guess for the Wordle game until the user inputs the valid input.
      * @return the valid user input.
      */
     private String obtainValidGuess(){
