@@ -83,6 +83,9 @@ public class Wordle {
         this.state = GameState.NEW_GAME;
 
         System.out.println("Ready to play Wordle! You have 6 guesses.");
+
+        // Comment the line below for the actual Wordle game
+        System.out.println("Answer: " + this.secretWord);
     }
 
     /**
