@@ -25,8 +25,6 @@ import java.util.*;
  * generates the string that represents how close the guess is to the secret word.
  */
 public class GuessEvaluator {
-    /** The length of the word to be used in the game */
-    public static final int WORD_LENGTH = 5;
 
     /** Character that represents that the given letter is not in the secret word. */
     public static final char WRONG_POSITION = '+';
@@ -57,8 +55,8 @@ public class GuessEvaluator {
      * @throws IllegalArgumentException if the secretWord is not a five-letter word.
      */
     public void setSecretWord(String secretWord) {
-        if(secretWord.length() != WORD_LENGTH)
-            throw new IllegalArgumentException("ERROR: Secret word must be " + WORD_LENGTH + " letter words.");
+        if(secretWord.length() != Wordle.WORD_LENGTH)
+            throw new IllegalArgumentException("ERROR: Secret word must be " + Wordle.WORD_LENGTH + " letter words.");
 
         this.secretWord = secretWord.toLowerCase();
     }
@@ -77,8 +75,8 @@ public class GuessEvaluator {
      * @throws IllegalArgumentException if the guess is not a five-letter word.
      */
     public String analyzeGuess(String guess){
-        if(guess.length() != WORD_LENGTH)
-            throw new IllegalArgumentException("ERROR: Guess must be " + WORD_LENGTH + " letter words.");
+        if(guess.length() != Wordle.WORD_LENGTH)
+            throw new IllegalArgumentException("ERROR: Guess must be " + Wordle.WORD_LENGTH + " letter words.");
 
         this.currentGuess = guess.toLowerCase();
 

@@ -32,7 +32,7 @@ enum GameState {
  */
 public class Wordle {
     /** Word length */
-    private static final int WORD_LENGTH = 5;
+    public static final int WORD_LENGTH = 5;
 
     /** The number of turns allowed */
     private static final int NUM_TURNS = 6;
@@ -67,6 +67,7 @@ public class Wordle {
         // Create a WordDictionary object with the words from the specified output file
         this.wordDict = new WordDictionary(OUTPUT_FILE);
         this.wordDict.readWords();
+        this.state = GameState.NEW_GAME;
 
         System.out.println("READY!");
     }
