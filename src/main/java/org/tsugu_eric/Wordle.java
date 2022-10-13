@@ -10,7 +10,7 @@
  *
  * Project: csci205_hw
  * Package: org.tsugu_eric
- * Class: TextProcessor
+ * Class: Wordle
  *
  * Description: Controls the flow of the game of Wordle.
  * ****************************************
@@ -40,8 +40,6 @@ public class Wordle {
     /** Number of guesses */
     private int guessNumber;
 
-    public String getSecretWord() {return secretWord;}
-
     /** Secret word to be guessed */
     private String secretWord;
 
@@ -52,10 +50,10 @@ public class Wordle {
     private GameState state;
 
     /** WordDictionary object */
-    WordDictionary wordDict;
+    private WordDictionary wordDict;
 
     /** GuessEvaluator object */
-    GuessEvaluator guessEval;
+    private GuessEvaluator guessEval;
 
     /** Scanner object */
     private Scanner scnr;
@@ -75,7 +73,7 @@ public class Wordle {
     /**
      * Initialize a new game of Wordle
      */
-    public void initNewGame() {
+    private void initNewGame() {
         this.guessEval = new GuessEvaluator();
         this.guessNumber = 0;
         this.secretWord = wordDict.getRandomWord();
@@ -196,8 +194,7 @@ public class Wordle {
     /**
      * @return true if the {@link GameState} is GAME_WINNER or GAME_LOSER, false otherwise.
      */
-    public boolean isGameOver() {
+    private boolean isGameOver() {
         return state == GameState.GAME_WINNER || state == GameState.GAME_LOSER;
     }
-
 }

@@ -10,7 +10,7 @@
  *
  * Project: csci205_hw
  * Package: org.tsugu_eric
- * Class: TextProcessor
+ * Class: Main
  *
  * Description: Main program for running a game of Wordle.
  * ****************************************

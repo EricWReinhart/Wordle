@@ -13,7 +13,7 @@
  * Class: WordDictionary
  *
  * Description: Read in words.txt, store the words, and provide random words
- *              for the game. Also check for valid words being used as guesses
+ *              for the game. Also check for valid words being used as guesses.
  * ****************************************
  */
 package org.tsugu_eric;
@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class WordDictionary {
     /** URLS to the novels that will be used to generate the word set */
-    private TreeMap<String, String> novelsURL;
+    private Map<String, String> novelsURL;
 
     /** URL address to master dictionary */
     private final String DICT_URL = "https://www.gutenberg.org/cache/epub/29765/pg29765.txt";
@@ -39,7 +39,7 @@ public class WordDictionary {
     private Set<String> wordSet;
 
     /** The filename of the words */
-    public String wordFile;
+    private String wordFile;
 
     /** The Scanner to check user's inputs */
     private Scanner userInputScanner;

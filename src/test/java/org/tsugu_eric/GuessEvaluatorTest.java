@@ -10,7 +10,7 @@
  *
  * Project: csci205_hw
  * Package: org.tsugu_eric
- * Class: WordDictionary
+ * Class: GuessEvaluatorTest
  *
  * Description: Unit testing for GuessEvaluator
  * ****************************************

@@ -10,7 +10,7 @@
  *
  * Project: csci205_hw
  * Package: org.tsugu_eric
- * Class: GuessEvaluator
+ * Class: WordDictionaryTest
  *
  * Description: Unit tests for WordDictionary
  * ****************************************
@@ -58,7 +58,7 @@ class WordDictionaryTest {
         System.setIn(new ByteArrayInputStream(pseudoInput.getBytes()));
 
         wd = new WordDictionary(FILE_NAME);
-        outputFile = new File(wd.wordFile);
+        outputFile = new File(FILE_NAME);
     }
 
     /**

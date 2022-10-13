@@ -10,7 +10,7 @@
  *
  * Project: csci205_hw
  * Package: org.tsugu_eric
- * Class: GuessEvaluator
+ * Class: TextProcessorTest
  *
  * Description: Unit tests for TextProcessor
  * ****************************************
