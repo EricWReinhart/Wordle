@@ -83,7 +83,7 @@ public class Wordle {
         System.out.println("Ready to play Wordle! You have 6 guesses.");
 
         // Comment the line below for the actual Wordle game
-        System.out.println("Answer: " + this.secretWord);
+        // System.out.println("Answer: " + this.secretWord);
     }
 
     /**
