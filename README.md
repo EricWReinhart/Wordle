@@ -7,7 +7,7 @@ Instructor: Dr. Brian King
 Semester: Fall 2022  
 
 ## Team Information  
-Tsugunobu Miyake and Eric Reinhert.  
+Tsugunobu Miyake and Eric Reinhart.  
 We are both in the Class of 2025. Tsugunobu is majoring in Computer Science and Engineering, 
 and Eric is majoring in Computer Science.
 
